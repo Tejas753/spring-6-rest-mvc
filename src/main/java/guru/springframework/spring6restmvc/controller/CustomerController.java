@@ -22,6 +22,13 @@ public class CustomerController {
 
     private final CustomerService customerService;
 
+    @PatchMapping("{customerId}")
+    public ResponseEntity patchById(@PathVariable("customerId")UUID customerId, @RequestBody BeerCustomer customer){
+
+        customerService.patchByCustomerId(customerId, customer);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
     @DeleteMapping("{customerId}")
     public ResponseEntity deleteByID(@PathVariable("customerId")UUID customerId){
 
