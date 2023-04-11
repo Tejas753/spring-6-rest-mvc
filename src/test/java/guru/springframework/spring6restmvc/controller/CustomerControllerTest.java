@@ -55,6 +55,8 @@ class CustomerControllerTest {
         customerServiceImpl = new CustomerServiceImpl();
     }
 
+
+
     @Test
     void testPatchCustomer() throws Exception {
         BeerCustomer customer = customerServiceImpl.customerList().get(0);
@@ -122,6 +124,15 @@ class CustomerControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.length()", is(3)));
+    }
+
+    @Test
+    void getCustomerByIdNotFound() throws Exception {
+
+        given(customerService.getCustomerByID(any(UUID.class))).willThrow(NotFoundException.class);
+
+        mockMvc.perform(get(CustomerController.CUSTOMER_PATH_ID, UUID.randomUUID()))
+                .andExpect(status().isNotFound());
     }
 
     @Test
