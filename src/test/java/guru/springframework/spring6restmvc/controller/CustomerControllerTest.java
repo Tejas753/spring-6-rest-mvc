@@ -16,6 +16,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
@@ -117,7 +118,7 @@ class CustomerControllerTest {
     }
 
     @Test
-    void testcustomerList() throws Exception {
+    void testCustomerList() throws Exception {
         given(customerService.customerList()).willReturn(customerServiceImpl.customerList());
 
         mockMvc.perform(get(CustomerController.CUSTOMER_PATH).accept(MediaType.APPLICATION_JSON))
@@ -129,7 +130,7 @@ class CustomerControllerTest {
     @Test
     void getCustomerByIdNotFound() throws Exception {
 
-        given(customerService.getCustomerByID(any(UUID.class))).willThrow(NotFoundException.class);
+        given(customerService.getCustomerByID(any(UUID.class))).willReturn(Optional.empty());
 
         mockMvc.perform(get(CustomerController.CUSTOMER_PATH_ID, UUID.randomUUID()))
                 .andExpect(status().isNotFound());
@@ -139,7 +140,7 @@ class CustomerControllerTest {
     void getCustomerByID() throws Exception {
         BeerCustomer testCustomer = customerServiceImpl.customerList().get(0);
 
-        given(customerService.getCustomerByID(testCustomer.getId())).willReturn(testCustomer);
+        given(customerService.getCustomerByID(testCustomer.getId())).willReturn(Optional.of(testCustomer));
 
         mockMvc.perform(get(CustomerController.CUSTOMER_PATH + "/" + testCustomer.getId())
                 .accept(MediaType.APPLICATION_JSON))

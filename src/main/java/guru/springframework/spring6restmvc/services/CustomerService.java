@@ -3,6 +3,7 @@ package guru.springframework.spring6restmvc.services;
 import guru.springframework.spring6restmvc.model.BeerCustomer;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 /**
@@ -16,7 +17,7 @@ public interface CustomerService {
 
     List<BeerCustomer> customerList();
 
-    BeerCustomer getCustomerByID(UUID id);
+    Optional<BeerCustomer> getCustomerByID(UUID id);
 
     void updateByCustomerId(UUID customerId, BeerCustomer customer);
 
