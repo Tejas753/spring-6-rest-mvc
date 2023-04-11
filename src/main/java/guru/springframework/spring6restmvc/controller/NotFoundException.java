@@ -1,9 +1,13 @@
 package guru.springframework.spring6restmvc.controller;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.ResponseStatus;
+
 /**
  * @author : tejas
  * @created : 4/10/23, Monday
  **/
+@ResponseStatus(value = HttpStatus.NOT_FOUND, reason = "Value Not Found")
 public class NotFoundException extends RuntimeException{
 
     public NotFoundException() {
