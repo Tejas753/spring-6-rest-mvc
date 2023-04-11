@@ -17,33 +17,35 @@ import java.util.UUID;
  **/
 @AllArgsConstructor
 @RestController
-@RequestMapping("/api/v1/customer")
 public class CustomerController {
+
+    public static final String CUSTOMER_PATH = "/api/v1/customer";
+    public static final String CUSTOMER_PATH_ID = CUSTOMER_PATH + "/{customerId}";
 
     private final CustomerService customerService;
 
-    @PatchMapping("{customerId}")
+    @PatchMapping(CUSTOMER_PATH_ID)
     public ResponseEntity patchById(@PathVariable("customerId")UUID customerId, @RequestBody BeerCustomer customer){
 
         customerService.patchByCustomerId(customerId, customer);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @DeleteMapping("{customerId}")
+    @DeleteMapping(CUSTOMER_PATH_ID)
     public ResponseEntity deleteByID(@PathVariable("customerId")UUID customerId){
 
         customerService.deleteByCustomerId(customerId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @PutMapping("{customerId}")
+    @PutMapping(CUSTOMER_PATH_ID)
     public ResponseEntity updateById(@PathVariable("customerId")UUID customerId, @RequestBody BeerCustomer customer){
 
         customerService.updateByCustomerId(customerId, customer);
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
 
-    @PostMapping
+    @PostMapping(CUSTOMER_PATH)
     public ResponseEntity handlePost(@RequestBody BeerCustomer customer){
         BeerCustomer savedCustomer = customerService.saveNewCustomer(customer);
 
@@ -53,12 +55,12 @@ public class CustomerController {
         return new ResponseEntity(header, HttpStatus.CREATED);
     }
 
-    @RequestMapping(method = RequestMethod.GET)
+    @GetMapping(CUSTOMER_PATH)
     public List<BeerCustomer> customerList(){
         return customerService.customerList();
     }
 
-    @RequestMapping(value = "{customerId}", method = RequestMethod.GET)
+    @RequestMapping(CUSTOMER_PATH_ID)
     public BeerCustomer getCustomerByID(@PathVariable("customerId") UUID customerId){
         return customerService.getCustomerByID(customerId);
     }
