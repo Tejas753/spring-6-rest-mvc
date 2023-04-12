@@ -12,7 +12,7 @@ import java.util.UUID;
  **/
 @Builder
 @Data
-public class BeerCustomer {
+public class CustomerDTO {
 
     private String customerName;
     private UUID id;

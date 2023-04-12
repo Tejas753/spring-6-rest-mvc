@@ -1,6 +1,6 @@
 package guru.springframework.spring6restmvc.services;
 
-import guru.springframework.spring6restmvc.model.BeerCustomer;
+import guru.springframework.spring6restmvc.model.CustomerDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -16,12 +16,12 @@ import java.util.*;
 @Service
 public class CustomerServiceImpl implements CustomerService {
 
-    private Map<UUID, BeerCustomer> customerMap;
+    private Map<UUID, CustomerDTO> customerMap;
 
     public CustomerServiceImpl(){
         this.customerMap = new HashMap<>();
 
-        BeerCustomer customer1 = BeerCustomer.builder()
+        CustomerDTO customer1 = CustomerDTO.builder()
                 .id(UUID.randomUUID())
                 .customerName("Micheal")
                 .version(1)
@@ -29,7 +29,7 @@ public class CustomerServiceImpl implements CustomerService {
                 .lastModifiedDate(LocalDateTime.now())
                 .build();
 
-        BeerCustomer customer2 = BeerCustomer.builder()
+        CustomerDTO customer2 = CustomerDTO.builder()
                 .id(UUID.randomUUID())
                 .customerName("John")
                 .version(1)
@@ -37,7 +37,7 @@ public class CustomerServiceImpl implements CustomerService {
                 .lastModifiedDate(LocalDateTime.now())
                 .build();
 
-        BeerCustomer customer3 = BeerCustomer.builder()
+        CustomerDTO customer3 = CustomerDTO.builder()
                 .id(UUID.randomUUID())
                 .customerName("Corner")
                 .version(1)
@@ -51,8 +51,8 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public BeerCustomer saveNewCustomer(BeerCustomer customer) {
-        BeerCustomer savedCustomer = BeerCustomer.builder()
+    public CustomerDTO saveNewCustomer(CustomerDTO customer) {
+        CustomerDTO savedCustomer = CustomerDTO.builder()
                 .id(UUID.randomUUID())
                 .createdDate(LocalDateTime.now())
                 .lastModifiedDate(LocalDateTime.now())
@@ -66,19 +66,19 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public List<BeerCustomer> customerList(){
+    public List<CustomerDTO> customerList(){
         return new ArrayList<>(customerMap.values());
     }
 
 
     @Override
-    public Optional<BeerCustomer> getCustomerByID(UUID id) {
+    public Optional<CustomerDTO> getCustomerByID(UUID id) {
         return Optional.of(customerMap.get(id));
     }
 
     @Override
-    public void updateByCustomerId(UUID customerId, BeerCustomer customer) {
-        BeerCustomer existing = customerMap.get(customerId);
+    public void updateByCustomerId(UUID customerId, CustomerDTO customer) {
+        CustomerDTO existing = customerMap.get(customerId);
         existing.setCustomerName(customer.getCustomerName());
         existing.setVersion(customer.getVersion());
 
@@ -91,9 +91,9 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public void patchByCustomerId(UUID customerId, BeerCustomer customer) {
+    public void patchByCustomerId(UUID customerId, CustomerDTO customer) {
 
-        BeerCustomer existing = customerMap.get(customerId);
+        CustomerDTO existing = customerMap.get(customerId);
 
         if(StringUtils.hasText(customer.getCustomerName())){
             existing.setCustomerName(customer.getCustomerName());
