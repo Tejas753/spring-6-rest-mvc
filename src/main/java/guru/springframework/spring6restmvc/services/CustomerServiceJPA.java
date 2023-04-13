@@ -10,14 +10,16 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 /**
  * @author : tejas
  * @created : 4/12/23, Wednesday
  **/
 @Service
-@RequiredArgsConstructor
 @Primary
+@RequiredArgsConstructor
+
 public class CustomerServiceJPA implements CustomerService{
     private final CustomerRepository customerRepository;
     private final CustomerMapper customerMapper;
@@ -29,12 +31,16 @@ public class CustomerServiceJPA implements CustomerService{
 
     @Override
     public List<CustomerDTO> customerList() {
-        return null;
+        return customerRepository.findAll()
+                .stream()
+                .map(customerMapper::customerToCustomerDto)
+                .collect(Collectors.toList());
     }
 
     @Override
     public Optional<CustomerDTO> getCustomerByID(UUID id) {
-        return Optional.empty();
+        return Optional.ofNullable(customerMapper.customerToCustomerDto(customerRepository.findById(id)
+                .orElse(null)));
     }
 
     @Override
